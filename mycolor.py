@@ -5,12 +5,6 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from clever.srv import SetLEDEffect
 
-def viewImage(image):
-    cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
-    cv2.imshow('Display', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
 def max_mask(r, y, g):
     if r > y and r > g:
         return 'red'
@@ -45,7 +39,7 @@ def color_recognition(image):
     set_effect = rospy.ServiceProxy('led/set_effect', SetLEDEffect)  # define proxy to ROS-service
 
     if result == 'red':
-        print("OH MY YOU CAN SEE SOME BLOOD")
+        print("OH NO, TEMPERATURE, CORONAVIRUS")
         hsv_image[red_mask > 0] = red
         hsv_image[red_mask <= 0] = black
         color_num = 1
@@ -53,7 +47,7 @@ def color_recognition(image):
         rospy.sleep(2)
 
     elif result == 'yellow':
-        print("SUN UNDER YOUR FEET")
+        print("WHAT?")
         hsv_image[yellow_mask > 0] = yellow
         hsv_image[yellow_mask <= 0] = black
         color_num = 2
@@ -61,7 +55,7 @@ def color_recognition(image):
         rospy.sleep(2)
 
     elif result == 'green':
-        print("DO U WANT SOME GREEN?")
+        print("U R FREE")
         hsv_image[green_mask > 0] = green
         hsv_image[green_mask <= 0] = black
         color_num = 3
@@ -76,7 +70,6 @@ def color_recognition(image):
 
     return color_num
 
-# image = cv2.imread('pictures/Green.jpg')
 
 def give_me_color_from_camera():
     rospy.init_node('color_detection')

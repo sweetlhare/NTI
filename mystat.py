@@ -19,3 +19,15 @@ def put_to_stat(N, x, y, color_num):
         patients = ast.literal_eval(contents)
         patients[N][2] = color_num
         print(patients, file=f)
+
+def give_me_COVID_data():
+    with open('t.txt', 'w') as f:
+        contents = f.read()
+        patients = ast.literal_eval(contents)
+        data = {}
+        i = 1
+        while i <= 10:
+            if patients[i][2] == 2 or patients[i][2] == 1:
+                data[i] = patients[i]
+            i += 1
+        return data
