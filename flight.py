@@ -20,16 +20,16 @@ set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
 land = rospy.ServiceProxy('land', Trigger)
 
 # [x, y, N]
-patients = [[0, 2, 1],
-            [1, 1, 3],
-            [1, 3, 2],
-            [2, 2, 7],
-            [2, 1, 8],
-            [3, 0, 6],
-            [3, 2, 9],
-            [4, 1, 4],
-            [4, 3, 5],
-            [5, 0, 10]]
+patients = [[0, 2.72, 1],
+            [0.72, 3.94, 2],
+            [0.72, 1.5, 3],
+            [2.88, 1.5, 4],
+            [2.88, 3.94, 5],
+            [2.16, 0.28, 6],
+            [1.44, 2.72, 7],
+            [1.44, 1.5, 8],
+            [2.16, 2.72, 9],
+            [3.6, 0.28, 10]]
 
 def takeoff_wait(alt, speed=0.5, tolerance=0.1):
     start = get_telemetry()
@@ -68,8 +68,8 @@ def detection_flight():
     for patient in patients:
         navigate_wait(x=patient[0], y=patient[1], z=0.7, frame_id='aruco_map', speed=1)
         color_num = mycolor.give_me_color_from_camera() # give color
-        mystat.put_to_stat(N=patient[2], x=patient[0], y=patient[1], color_num) # put color to stat
-        # ЗДЕСЬ НУЖЕН МОДУЛЬ ДЛЯ ВЫГРУЗКИ ТЕСТА
+        mystat.put_to_stat(N=patient[2], x=patient[0], y=patient[1], color_num=color_num) # put color to stat
+        # HERE MODULE FOR DELIEVER
 
     navigate_wait(x=home.x, y=home.y, z=0.7, speed=1, frame_id='aruco_map') # go home
 
@@ -89,8 +89,8 @@ def check_flight():
     # check all positions
     for N in data:
         navigate_wait(x=data[N][0], y=data[N][0], z=0.7, frame_id='aruco_map', speed=1)
-        # НАПИСАТЬ МОДУЛЬ QR
-        # НАПИСАТЬ МОДУЛЬ ДЛЯ ДОБАВЛЯЕНИЯ СТАТИСТИКИ ПО QR
+        # QR
+        # STAT FOR QR
 
     navigate_wait(x=home.x, y=home.y, z=0.7, speed=1, frame_id='aruco_map') # go home
 
